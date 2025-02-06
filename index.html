@@ -1,11 +1,87 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Gestión de Alumnos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 50%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: left;
+        }
+        /* Agregamos estilo para las filas de la tabla */
+        tr {
+            transition: background-color 0.3s ease;
+        }
+        tr:hover {
+            background-color: #f2f2f2; /* Color de fondo al pasar el cursor */
+            cursor: pointer; /* Cambia el cursor a pointer */
+        }
+    </style>
 </head>
 <body>
-    <h1>CRUD</h1>
+    <h1>C.R.U.D. DE ALUMNOS</h1>
+    <form>
+        <label for="nombreAlumno">Nombre del Alumno:</label>
+        <input type="text" id="nombreAlumno" />
+        <button type="button" onclick="guardarNombre()">Guardar</button>
+    </form>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Nombre</th>
+            </tr>
+        </thead>
+        <tbody id="tablaAlumnos">
+            <!-- Aquí se agregarán los nombres dinámicamente -->
+        </tbody>
+    </table>
+
+    <script>
+        // Vector para almacenar los nombres
+        var nombres = [];
+
+        function guardarNombre() {
+            // Obtener el valor del input
+            var input = document.getElementById("nombreAlumno");
+            var nombre = input.value.trim();
+
+            // Validar que el nombre no esté vacío
+            if (nombre !== "") {
+                // Agregar el nombre al vector
+                nombres.push(nombre);
+
+                // Actualizar la tabla
+                actualizarTabla();
+
+                // Limpiar el input
+                input.value = "";
+            } else {
+                alert("Por favor, escribe un nombre válido.");
+            }
+        }
+
+        function actualizarTabla() {
+            // Seleccionar el tbody de la tabla
+            var tabla = document.getElementById("tablaAlumnos");
+            tabla.innerHTML = ""; // Limpiar contenido previo
+
+            // Agregar cada nombre como una fila en la tabla
+            for (var i = 0; i < nombres.length; i++) {
+                var fila = "<tr><td>" + (i + 1) + "</td><td>" + nombres[i] + "</td></tr>";
+                tabla.innerHTML += fila;
+            }
+        }
+    </script>
 </body>
 </html>
