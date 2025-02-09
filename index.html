@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Gestión de Alumnos</title>
+    <title>Lista de Alumnos</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -17,70 +17,117 @@
             padding: 10px;
             text-align: left;
         }
-        /* Agregamos estilo para las filas de la tabla */
         tr {
             transition: background-color 0.3s ease;
         }
         tr:hover {
-            background-color: #f2f2f2; /* Color de fondo al pasar el cursor */
-            cursor: pointer; /* Cambia el cursor a pointer */
+            background-color: #f2f2f2;
+            cursor: pointer;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        .editable {
+            background-color: #f9f9f9;
+            padding: 5px;
+            border: 1px solid #ccc;
         }
     </style>
 </head>
 <body>
     <h1>C.R.U.D. DE ALUMNOS</h1>
+    
+     <!-- Compañeros dejo comentarios de que hace el codígo -->
+       <!--La idea es que si no entienden algo lo pregunten y no cambiar sin antes avisar que van a cambiar -->
+    <!-- este es el Formulario arriba -->
     <form>
         <label for="nombreAlumno">Nombre del Alumno:</label>
         <input type="text" id="nombreAlumno" />
-        <button type="button" onclick="guardarNombre()">Guardar</button>
+        <button type="button" onclick="guardarNombre()">Pinta</button>
     </form>
     
+    <!-- Aquí se agregarán las filas dinámicamente osea los nombres de alumnos-->
     <table>
         <thead>
             <tr>
                 <td>Código</td>
                 <td>Nombre</td>
+                <td>Modificar Nombre</td>
+                <td>Eliminar Nombre</td>
             </tr>
         </thead>
         <tbody id="tablaAlumnos">
-            <!-- Aquí se agregarán los nombres dinámicamente -->
+            <!-- Aquí se agregarán las filas dinámicamente -->
         </tbody>
     </table>
 
     <script>
-        // Vector para almacenar los nombres
+          // Este es el Vector para almacenar los nombres de los alumnos
         var nombres = [];
 
         function guardarNombre() {
-            // Obtener el valor del input
             var input = document.getElementById("nombreAlumno");
             var nombre = input.value.trim();
 
-            // Validar que el nombre no esté vacío
             if (nombre !== "") {
-                // Agregar el nombre al vector
-                nombres.push(nombre);
-
-                // Actualizar la tabla
-                actualizarTabla();
-
-                // Limpiar el input
-                input.value = "";
+                nombres.push(nombre); // Esto hace lo siguiente:Agrega el nombre al vector
+                actualizarTabla();    // Y aqui actualiza la tabla
+                input.value = "";     // el input de que Limpia el campo de entrada
             } else {
-                alert("Por favor, escribe un nombre válido.");
+        
+            }
+        }
+
+        function eliminarNombre(index) { //El index es quien elimina el nombre del vector
+                                        // Elimina el nombre del vector en el índice especificado
+            nombres.splice(index, 1);   //// el splice() nos ayuda hacer el arreglo despues de eliminar con index
+            actualizarTabla(); // Actualiza la tabla después de eliminar
+        }
+
+        function modificarNombre(index) {
+            var tabla = document.getElementById("tablaAlumnos");
+            var row = tabla.rows[index]; // Selecciona la fila en el índice especificado
+            var nombreCell = row.cells[1]; // Accede a la segunda celda (donde está el nombre)
+
+            // Crear el campo de texto para editar el nombre
+            var inputHTML = '<input type="text" value="' + nombres[index] + '" class="editable">';
+
+            // Crear el botón de "Guardar"
+            var guardarBtnHTML = '<button onclick="guardarEdicion(' + index + ')">Guardar</button>';
+
+            // Reemplazamos el contenido de la celda por el campo de texto y el botón de guardar
+            nombreCell.innerHTML = inputHTML + " " + guardarBtnHTML;
+        }
+
+        function guardarEdicion(index) {
+            var tabla = document.getElementById("tablaAlumnos");
+            var row = tabla.rows[index]; // Selecciona la fila en el índice especificado
+            var nombreCell = row.cells[1]; // Accede a la segunda celda (donde está el nombre)
+            var input = nombreCell.querySelector('input'); // Obtener el campo de texto
+
+            var nuevoNombre = input.value.trim();
+            if (nuevoNombre !== "") {
+                nombres[index] = nuevoNombre; // Actualiza el nombre en el vector
+                actualizarTabla(); // Actualiza la tabla después de modificar
             }
         }
 
         function actualizarTabla() {
-            // Seleccionar el tbody de la tabla
             var tabla = document.getElementById("tablaAlumnos");
-            tabla.innerHTML = ""; // Limpiar contenido previo
+            var texto = ""; // Construir el contenido dinámico
 
-            // Agregar cada nombre como una fila en la tabla
+            // Este es el bucle for y lo que hace es recorrer el vector de nombres para agregar filas a la tabla 
             for (var i = 0; i < nombres.length; i++) {
-                var fila = "<tr><td>" + (i + 1) + "</td><td>" + nombres[i] + "</td></tr>";
-                tabla.innerHTML += fila;
+                texto += "<tr><td>" + (i + 1) + "</td><td>" + nombres[i] + "</td>" +
+                         "<td><button onclick='modificarNombre(" + i + ")'>Modificar</button></td>" +
+                         "<td><button onclick='eliminarNombre(" + i + ")'>Borrar</button></td></tr>";
             }
+
+            // Añadir la fila con el total de alumnos al final de la tabla
+            texto += "<tr><td colspan='4' style='text-align:center; font-weight:bold;'>Total de Alumnos: " + nombres.length + "</td></tr>";
+
+            // Insertar el contenido generado en la tabla
+            tabla.innerHTML = texto;
         }
     </script>
 </body>
