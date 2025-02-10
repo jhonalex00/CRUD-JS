@@ -44,8 +44,15 @@
         <label for="nombreAlumno">Nombre del Alumno:</label>
         <input type="text" id="nombreAlumno" />
         <button type="button" onclick="guardarNombre()">Pinta</button>
-    </form>
     
+    <input type="text" id="buscar" placeholder="nombre buscado"><!--esto es para buscar en el crud nombres-->
+    <input type="text" id="cambio" placeholder="nuevo nombre"><!--para cambiar el nombre-->
+    <input type="button" onclick="contarnombre(1)" value="Buscar"><!-- llamo a las distintos if que aparecen en la funcion contarnombres -->
+    <input type="button" onclick="contarnombre(2)" value="cambiar">
+    <input type="button" onclick="contarnombre(3)" value="buscar y cambiar">
+    <div id="buscado"></div>   
+    </form>
+
     <!-- Aquí se agregarán las filas dinámicamente osea los nombres de alumnos-->
     <table>
         <thead>
@@ -64,6 +71,39 @@
     <script>
           // Este es el Vector para almacenar los nombres de los alumnos
         var nombres = [];
+        var contador
+        function contarnombre(dif){//uso la var dif para usar los diferentes botones
+            var ver=document.getElementById("buscar").value//escribo el nombre que quiero buscar
+            var cambiar=document.getElementById("cambio").value//el nombre por el que quiero cambiar
+            if(dif==1){
+            contador=0
+            for (var i=0; i<nombres.length;i++){//recorro el bucle para ver los elementos
+                if(ver==nombres[i]){//si encuentro el nombre me suma uno en las var contador
+                    contador++
+                }
+            }
+        }else if(dif==2){
+            for (var i=0; i<nombres.length;i++){//recorro el vector 
+                if(ver==nombres[i]){//compruebo si encuentro el nombre a cambiar
+                    nombres[i]=cambiar//cambio el nombre por otra palabra escrita en otra caja de texto
+                }
+            }
+        }else if(dif==3){//mezclo los otros dos else para que hagan las dos cosas a la vez
+            contador=0
+            for (var i=0; i<nombres.length;i++){
+                if(ver==nombres[i]){
+                    contador++
+                }
+            }
+            for (var i=0; i<nombres.length;i++){
+                if(ver==nombres[i]){
+                    nombres[i]=cambiar
+                }
+            }
+        }
+            document.getElementById("buscado").innerHTML="aparece un total de:"+contador//me enseña la cantidad de ese nombre he escrito en el crud
+            actualizarTabla()//actualizo tabla para que al cambiar los datos salgan en la tabla
+        }
 
         function guardarNombre() {
             var input = document.getElementById("nombreAlumno");
