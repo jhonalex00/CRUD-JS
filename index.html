@@ -50,6 +50,7 @@
     <input type="button" onclick="contarnombre(1)" value="Buscar"><!-- llamo a las distintos if que aparecen en la funcion contarnombres -->
     <input type="button" onclick="contarnombre(2)" value="cambiar">
     <input type="button" onclick="contarnombre(3)" value="buscar y cambiar">
+    <input type="button" id="invertirBoton" value="Invertir Nombres" onclick="invertirNombres"/>
     <div id="buscado"></div>   
     </form>
 
@@ -61,12 +62,15 @@
                 <td>Nombre</td>
                 <td>Modificar Nombres</td>
                 <td>Eliminar Nombres</td>
+                <td>Detalles</td>
             </tr>
         </thead>
         <tbody id="tablaAlumnos">
             <!-- Aquí se agregarán las filas dinámicamente -->
         </tbody>
     </table>
+
+    <div id="detalles" class="informacion"></div>
 
     <script>
           // Este es el Vector para almacenar los nombres de los alumnos
@@ -160,15 +164,118 @@
             for (var i = 0; i < nombres.length; i++) {
                 texto += "<tr><td>" + (i + 1) + "</td><td>" + nombres[i] + "</td>" +
                          "<td><button onclick='modificarNombre(" + i + ")'>Modificar</button></td>" +
-                         "<td><button onclick='eliminarNombre(" + i + ")'>Borrar</button></td></tr>";
+                         "<td><button onclick='eliminarNombre(" + i + ")'>Borrar</button></td>" +
+                         "<td><button onclick='mostrarDetalles(" + i + ")'>Detalles</button></td></tr>";
             }
 
             // Añadir la fila con el total de alumnos al final de la tabla
             texto += "<tr><td colspan='4' style='text-align:center; font-weight:bold;'>Total de Alumnos: " + nombres.length + "</td></tr>";
 
+
+        // V8 Obtener las longitudes de cada nombre 
+            if (nombres.length > 0) {
+                var longitudes = [];
+                for (var i = 0; i < nombres.length; i++) {
+                    longitudes.push(nombres[i].length);
+                }
+            // Calcular el promedio de longitud de los nombres
+                var sumaLongitudes = 0;
+                for (var i = 0; i < longitudes.length; i++) {
+                    sumaLongitudes += longitudes[i];
+                }
+        
+                promedioLongitudGlobal = (sumaLongitudes / longitudes.length).toFixed(2); 
+                
+            //longitud nombre mas corto   
+                var minLongitud = longitudes[0];
+                for (var i = 1; i < longitudes.length; i++) {
+                    if (longitudes[i] < minLongitud) {
+                        minLongitud = longitudes[i];
+                    }
+                }
+            //longitud mas larga   
+                var maxLongitud = longitudes[0];
+                for (var i = 1; i < longitudes.length; i++) {
+                    if (longitudes[i] > maxLongitud) {
+                        maxLongitud = longitudes[i];
+                    }
+                }
+                
+                texto += "<tr><td colspan='4'>Promedio de longitud de los nombres: " + promedioLongitudGlobal + "</td></tr>";
+                texto += "<tr><td colspan='4'>Longitud del nombre más corto: " + minLongitud + "</td></tr>";
+                texto += "<tr><td colspan='4'>Longitud del nombre más largo: " + maxLongitud + "</td></tr>";
+            }
+            //V8fin
+
             // Insertar el contenido generado en la tabla
             tabla.innerHTML = texto;
         }
+
+         //V9 invertir nombres y cambiar boton de invertit
+        var nombresInvertidos = false; 
+         
+        function invertirNombres() {
+            if (!nombresInvertidos) {
+                for (var i = 0; i < nombres.length; i++) {
+                    nombres[i] = nombres[i].split('').reverse().join('');
+                }
+                
+                document.getElementById("invertirBoton").value = "Mostrar Nombres Originales";
+            } else {
+                for (var i = 0; i < nombres.length; i++) {
+                    nombres[i] = nombres[i].split('').reverse().join('');
+                }
+                document.getElementById("invertirBoton").value = "Invertir Nombres";
+            }
+            nombresInvertidos = !nombresInvertidos;
+            actualizarTabla();
+        }
+        //V9fin
+
+        //V10 muestra detalles del nombre
+
+        function mostrarDetalles(index) {
+            var nombre = nombres[index];
+            var longitud = nombre.length;
+            var vocales = ['a', 'e', 'i', 'o', 'u', 'á', 'é', 'í', 'ó', 'ú']; // todas las vocales posibles
+            var numVocales = 0;
+            
+            for (var i = 0; i < nombre.length; i++) {
+                for (var j = 0; j < vocales.length; j++) {
+                    if (nombre[i].toLowerCase() === vocales[j]) {
+                        numVocales++;
+                        break;
+                    }
+                }
+            }
+
+            var promedioLongitud = promedioLongitudGlobal
+            
+            var longitudCorta = nombres[0].length;
+            var longitudLarga = nombres[0].length;
+
+            for (var i = 1; i < nombres.length; i++) {
+                var longitudActual = nombres[i].length;
+                if (longitudActual < longitudCorta) {
+                    longitudCorta = longitudActual;
+                }
+                if (longitudActual > longitudLarga) {
+                    longitudLarga = longitudActual;
+                }
+            }
+            
+            var detalle = "<strong>Nombre:</strong> " + nombre + "<br>" +
+                  "<strong>Longitud:</strong> " + longitud + "<br>" +
+                  "<strong>Comparación con el promedio:</strong> " + (longitud > promedioLongitud ? "Por encima" : (longitud < promedioLongitud ? "Por debajo" : "Igual")) + "<br>" +
+                  "<strong>Es el nombre más corto:</strong> " + (longitud == longitudCorta ? "Sí" : "No") + "<br>" +
+                  "<strong>Es el nombre más largo:</strong> " + (longitud == longitudLarga ? "Sí" : "No") + "<br>" +
+                  "<strong>Número de vocales:</strong> " + numVocales;
+                  
+            document.getElementById("detalles").innerHTML = detalle;
+        
+        }
+        //V10 fin
+
     </script>
 </body>
 </html>
