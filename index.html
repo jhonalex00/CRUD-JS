@@ -4,34 +4,92 @@
     <title>Lista de Alumnos</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
+            font-family: Arial, sans-serif; /* Fuente básica y legible */
+            background: rgb(12, 1, 1); /* Fondo oscuro para resaltar el contenido */
+            color: white; /* Texto blanco para un buen contraste */
+            margin: 50px; /* Espacio alrededor del contenido */
+            text-align: center; /* Centra el texto */
         }
         table {
-            width: 50%;
+            width: 80%;
             border-collapse: collapse;
-            margin-top: 20px;
+            margin: 20px auto;
+            box-shadow: 0px 0px 20px #ff9900;
+            border-radius: 10px;
+            overflow: hidden;
+            table-layout: auto; /* Permite ajustar manualmente los anchos */
         }
+        
         th, td {
-            border: 1px solid black;
-            padding: 10px;
-            text-align: left;
+            border: 1px solid #444;
+            padding: 8px; /* Espacio interno moderado */
+            text-align: center;
         }
+        
+        /* Ajustes personalizados para las columnas */
+        .nombre {
+            width: 5%; /* Ajusta el ancho según tu necesidad */
+        }
+        
+        .nombre-buscado {
+            width: 5%; /* Ajusta este también */
+        }
+        
+        .nuevo-nombre {
+            width: 5%; /* Puedes cambiarlo según te convenga */
+        }
+        
+        
         tr {
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease; /* Transición suave al pasar el mouse */
         }
+        
         tr:hover {
-            background-color: #f2f2f2;
-            cursor: pointer;
+            background-color: #333; /* Fila se oscurece al pasar el mouse */
+            cursor: pointer; /* Cambia el cursor a puntero */
         }
+        
+        input[type="text"] {
+            padding: 10px; /* Espacio interno */
+            border-radius: 5px; /* Bordes redondeados */
+            border: 1px solid #555; /* Borde gris oscuro */
+            background: #222; /* Fondo oscuro para contraste */
+            color: white; /* Texto blanco */
+            width: 50%; /* Ancho del campo de texto */
+            margin: 10px 0; /* Espacio superior e inferior */
+        }
+        
+        button, input[type="button"] {
+            padding: 10px 20px; /* Espacio interno para botones grandes */
+            font-size: 16px; /* Tamaño de fuente legible */
+            border: none; /* Sin borde */
+            border-radius: 5px; /* Bordes redondeados */
+            background-color: #4CAF50; /* Color verde del botón */
+            color: white; /* Texto blanco */
+            cursor: pointer; /* Cambia el cursor a puntero */
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3); /* Sombra para efecto de profundidad */
+            transition: background-color 0.3s ease; /* Transición suave de color */
+        }
+        
+        button:hover, input[type="button"]:hover {
+            background-color: #45a049; /* Color más oscuro al pasar el mouse */
+        }
+        
+        #detalles {
+            background: #222; /* Fondo oscuro */
+            border-radius: 10px; /* Bordes redondeados */
+            box-shadow: inset 0px 0px 50px #ff0, 0px 0px 30px #ff9900; /* Sombra interna y externa */
+            padding: 20px; /* Espacio interno */
+            color: #ddd; /* Texto gris claro */
+            width: 60%; /* Ancho del 60% de la pantalla */
+            margin: 20px auto; /* Centrado con margen superior e inferior */
+        }
+        
         form {
-            margin-bottom: 20px;
+            margin-bottom: 20px; /* Espacio debajo del formulario */
         }
-        .editable {
-            background-color: #f9f9f9;
-            padding: 5px;
-            border: 1px solid #ccc;
-        }
+        
+        
     </style>
 </head>
 <body>
