@@ -108,7 +108,8 @@
     <input type="button" onclick="contarnombre(1)" value="Buscar"><!-- llamo a las distintos if que aparecen en la funcion contarnombres -->
     <input type="button" onclick="contarnombre(2)" value="cambiar">
     <input type="button" onclick="contarnombre(3)" value="buscar y cambiar">
-    <input type="button" id="invertirBoton" value="Invertir Nombres" onclick="invertirNombres"/>
+    <input type="button" id="invertirBoton" value="Invertir Nombres" onclick="invertirNombres()" />
+
     <div id="buscado"></div>   
     </form>
 
@@ -228,8 +229,7 @@
 
             // Añadir la fila con el total de alumnos al final de la tabla
             texto += "<tr><td colspan='4' style='text-align:center; font-weight:bold;'>Total de Alumnos: " + nombres.length + "</td></tr>";
-
-
+            
         // V8 Obtener las longitudes de cada nombre 
             if (nombres.length > 0) {
                 var longitudes = [];
@@ -263,21 +263,21 @@
                 texto += "<tr><td colspan='4'>Longitud del nombre más corto: " + minLongitud + "</td></tr>";
                 texto += "<tr><td colspan='4'>Longitud del nombre más largo: " + maxLongitud + "</td></tr>";
             }
-            //V8fin
+        //V8fin
 
             // Insertar el contenido generado en la tabla
             tabla.innerHTML = texto;
         }
 
-         //V9 invertir nombres y cambiar boton de invertit
+        
+        //V9 invertir nombres y cambiar boton de invertit
         var nombresInvertidos = false; 
-         
+
         function invertirNombres() {
             if (!nombresInvertidos) {
                 for (var i = 0; i < nombres.length; i++) {
                     nombres[i] = nombres[i].split('').reverse().join('');
                 }
-                
                 document.getElementById("invertirBoton").value = "Mostrar Nombres Originales";
             } else {
                 for (var i = 0; i < nombres.length; i++) {
@@ -325,14 +325,15 @@
             var detalle = "<strong>Nombre:</strong> " + nombre + "<br>" +
                   "<strong>Longitud:</strong> " + longitud + "<br>" +
                   "<strong>Comparación con el promedio:</strong> " + (longitud > promedioLongitud ? "Por encima" : (longitud < promedioLongitud ? "Por debajo" : "Igual")) + "<br>" +
-                  "<strong>Es el nombre más corto:</strong> " + (longitud == longitudCorta ? "Sí" : "No") + "<br>" +
-                  "<strong>Es el nombre más largo:</strong> " + (longitud == longitudLarga ? "Sí" : "No") + "<br>" +
+                  "<strong>Es el nombre más corto:</strong> " + (longitud === longitudCorta ? "Sí" : "No") + "<br>" +
+                  "<strong>Es el nombre más largo:</strong> " + (longitud === longitudLarga ? "Sí" : "No") + "<br>" +
                   "<strong>Número de vocales:</strong> " + numVocales;
                   
             document.getElementById("detalles").innerHTML = detalle;
         
         }
         //V10 fin
+        
 
     </script>
 </body>
